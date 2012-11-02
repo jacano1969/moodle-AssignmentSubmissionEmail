@@ -1,0 +1,60 @@
+diff -rupN assignment1/type/offline/assignment.class.php assignment/type/offline/assignment.class.php
+--- assignment1/type/offline/assignment.class.php	2012-11-02 09:34:43.403830459 +0500
++++ assignment/type/offline/assignment.class.php	2012-11-02 10:59:16.675774322 +0500
+@@ -92,10 +92,7 @@ class assignment_offline extends assignm
+             add_to_log($this->course->id, 'assignment', 'update grades',
+                        'submissions.php?id='.$this->assignment->id.'&user='.$feedback->userid, $feedback->userid, $this->cm->id);
+ 
+-		 //send email to students added by Hina Yousuf
+-                    email_to_user($USER, get_admin(), 'Assignment uploaded Successfully', '', 'Assignment: '.$this->assignment->name. ' has been uploaded successfully by '.$USER->firstname.' '.$USER->lastname.'.', $attachment='', $attachname='', $usetrueaddress=true, $replyto='', $replytoname='', $wordwrapwidth=79);
+-
+-        }
++		         }
+ 
+         return $submission;
+ 
+diff -rupN assignment1/type/online/assignment.class.php assignment/type/online/assignment.class.php
+--- assignment1/type/online/assignment.class.php	2012-11-02 09:34:43.409830465 +0500
++++ assignment/type/online/assignment.class.php	2012-11-02 11:00:23.183820196 +0500
+@@ -71,9 +71,7 @@ class assignment_online extends assignme
+                 //TODO fix log actions - needs db upgrade
+                 add_to_log($this->course->id, 'assignment', 'upload', 'view.php?a='.$this->assignment->id, $this->assignment->id, $this->cm->id);
+                 $this->email_teachers($submission);
+-                 //send email to students added by Hina Yousuf
+-                    email_to_user($USER, get_admin(), 'Assignment uploaded Successfully', '', 'Assignment: '.$this->assignment->name. ' has been uploaded successfully by '.$USER->firstname.' '.$USER->lastname.'.', $attachment='', $attachname='', $usetrueaddress=true, $replyto='', $replytoname='', $wordwrapwidth=79);
+-
++                
+                 //redirect to get updated submission date and word count
+                 redirect(new moodle_url($PAGE->url, array('saved'=>1)));
+             }
+diff -rupN assignment1/type/upload/assignment.class.php assignment/type/upload/assignment.class.php
+--- assignment1/type/upload/assignment.class.php	2012-11-02 09:34:43.474830531 +0500
++++ assignment/type/upload/assignment.class.php	2012-11-02 10:46:47.751295396 +0500
+@@ -576,9 +576,7 @@ class assignment_upload extends assignme
+             $DB->update_record('assignment_submissions', $updates);
+             add_to_log($this->course->id, 'assignment', 'upload',
+                     'view.php?a='.$this->assignment->id, $this->assignment->id, $this->cm->id);
+-//Added By HIna Yousuf send email to users
+-	     email_to_user($USER, get_admin(), 'Assignment uploaded Successfully', '', 'Assignment: '.$this->assignment->name. ' has been uploaded successfully by '.$USER->firstname.' '.$USER->lastname.'.', $attachment='', $attachname='', $usetrueaddress=true, $replyto='', $replytoname='', $wordwrapwidth=79);
+-//end
++
+             $this->update_grade($submission);
+             if (!$this->drafts_tracked()) {
+                 $this->email_teachers($submission);
+diff -rupN assignment1/type/uploadsingle/assignment.class.php assignment/type/uploadsingle/assignment.class.php
+--- assignment1/type/uploadsingle/assignment.class.php	2012-11-02 09:34:43.484830541 +0500
++++ assignment/type/uploadsingle/assignment.class.php	2012-11-02 10:47:06.410309898 +0500
+@@ -225,11 +225,9 @@ class assignment_uploadsingle extends as
+                     $updates->id     = $submission->id;
+                     $DB->update_record('assignment_submissions', $updates);
+                     add_to_log($this->course->id, 'assignment', 'upload', 'view.php?a='.$this->assignment->id, $this->assignment->id, $this->cm->id);
+-			//send email to students added by Hina Yousuf
+-                    email_to_user($USER, get_admin(), 'Assignment uploaded Successfully', '', 'Assignment: '.$this->assignment->name. ' has been uploaded successfully by '.$USER->firstname.' '.$USER->lastname.'.', $attachment='', $attachname='', $usetrueaddress=true, $replyto='', $replytoname='', $wordwrapwidth=79);
+-//end
++			
+     
+-                $this->update_grade($submission);
++                    $this->update_grade($submission);
+                     $this->email_teachers($submission);
+ 
+                     // Let Moodle know that an assessable file was uploaded (eg for plagiarism detection)
